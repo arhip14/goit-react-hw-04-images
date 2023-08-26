@@ -52,6 +52,7 @@ const Modal = ({ src, alt, onClose }) => {
   );
 };
 
+
 Modal.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
