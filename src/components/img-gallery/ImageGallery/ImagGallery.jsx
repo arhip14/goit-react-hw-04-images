@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImageGalleryItem from '../ImageGalleryItem/ImageGalleryItem';
 
-
 const ImageGallery = ({ images, onImageClick }) => (
   <ul style={{ listStyle: 'none', display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
     {images.map(({ id, webformatURL, largeImageURL }) => (
@@ -24,5 +23,4 @@ ImageGallery.propTypes = {
   onImageClick: PropTypes.func.isRequired,
 };
 
-
-export default ImageGallery
+export default ImageGallery;

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import ImageGallery from '../ImageGallery/ImagGallery';
 
 const ImageGalleryItem = ({ webformatURL, onImageClick }) => (
   <img
@@ -9,14 +10,13 @@ const ImageGalleryItem = ({ webformatURL, onImageClick }) => (
       width: '250px',
       height: 'auto',
       cursor: 'pointer',
-    }}
-    onClick={onImageClick}
-  />
+    }} 
+  onClick={onImageClick}/> 
 );
 
 ImageGalleryItem.propTypes = {
   webformatURL: PropTypes.string.isRequired,
-  onImageClick: PropTypes.func.isRequired,
+  omImageClick: PropTypes.func.isRequired,
 };
 
 export default ImageGalleryItem;
