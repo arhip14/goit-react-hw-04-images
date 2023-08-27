@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Searchbar from './img-gallery/SearchBar/SearchBar';
@@ -7,6 +7,9 @@ import Button from './img-gallery/Button/Button';
 import Loader from './img-gallery/Loader/Loader';
 import Modal from './img-gallery/Modal/Modal';
 import '../index.css';
+import axios from 'axios';
+
+
 
 const App = () => {
   const [images, setImages] = useState([]);
@@ -16,26 +19,33 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (searchQuery === '') return;
-
+    if (searchQuery === "") return;
     const fetchImages = async () => {
+
       setIsLoading(true);
 
       try {
-        const response = await fetch(
-          `https://pixabay.com/api/?q=${searchQuery}&page=${page}&key=38252879-889a9619e4dc8706c4a00f455&image_type=photo&orientation=horizontal&per_page=12`
-        );
-        const data = await response.json();
+        const response = await axios.get('https://pixabay.com/api/', {
+          params: {
+            q: searchQuery,
+            page,
+            key: '38252879-889a9619e4dc8706c4a00f455',
+            image_type: 'photo',
+            orientation: 'horizontal',
+            per_page: 12,
+          },
+        });
+
+        const data = response.data;
 
         if (data.hits.length === 0) {
-          toast.error('No images found', {
-            position: 'top-center',
-            autoClose: 3000,
+          toast.error('No image found', {
+            position: 'top-right',
+            autoClose: 2000,
             hideProgressBar: true,
             closeOnClick: true,
-            pauseOnHover: false,
-            draggable: false,
-            progress: undefined,
+            pauseOnHover: true,
+            draggable: undefined,
           });
         } else {
           setImages((prevImages) => [...prevImages, ...data.hits]);
@@ -58,14 +68,15 @@ const App = () => {
     setSelectedImage(null);
   };
 
+
   const handleSearchSubmit = (query) => {
     if (query.trim() === '') {
       toast.warn('Please enter a search keyword', {
-        position: 'top-center',
-        autoClose: 3000,
+        position: 'top-right',
+        autoClose: 2000,
         hideProgressBar: true,
         closeOnClick: true,
-        pauseOnHover: false,
+        pauseOnHover: true,
         draggable: false,
         progress: undefined,
       });
@@ -73,6 +84,7 @@ const App = () => {
     }
 
     setImages([]);
+
     setSearchQuery(query);
     setPage(1);
   };
@@ -81,46 +93,64 @@ const App = () => {
     setPage((prevPage) => prevPage + 1);
   };
 
-  const handleKeyDown = (event) => {
-    if (event.key === 'Escape') {
+
+  const handleKeyDown = (evt) => {
+    if (evt.key === 'Escape') {
       closeModal();
     }
   };
 
-  const handleBackdropClick = (event) => {
-    if (event.target === event.currentTarget) {
+
+  const handleBackdropClick = (evt) => {
+    if (evt.target === evt.currentTarget) {
       closeModal();
     }
   };
 
-  const handleSearchKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      handleSearchSubmit(event.target.value);
+
+  const handleSearchKeyDown = (evt) => {
+    if (evt.key === 'Enter') {
+      evt.preventDefault();
+      handleSearchSubmit(evt.target.value);
     }
   };
 
   return (
     <div className="container">
-      <h1 className="heading">Image Finder App</h1>
-      <Searchbar onSubmit={handleSearchSubmit} onKeyDown={handleSearchKeyDown} />
-      <ImageGallery images={images} onImageClick={handleImageClick} />
+      <h1 className="heading">
+        Image Finder App
+      </h1>
+      <Searchbar
+        onSubmit={handleSearchSubmit}
+        onKeyDown={handleSearchKeyDown}
+      >
+      </Searchbar>
+      <ImageGallery
+        images={images}
+        onImageClick={handleImageClick}>
+      </ImageGallery>
       {images.length > 0 && !isLoading && (
-        <Button onClick={handleLoadMoreClick} isVisible={!isLoading} />
+        <Button
+          onClick={handleLoadMoreClick}
+          isVisible={!isLoading}
+        >
+        </Button>
       )}
-      {isLoading && <Loader />}
+
+      {isLoading && <Loader></Loader>}
       {selectedImage && (
         <Modal
           src={selectedImage}
-          alt="SelectedImg"
+          alt="SelecteImg"
           onClose={closeModal}
-          onKeyDown={handleKeyDown}
           onBackdropClick={handleBackdropClick}
-        />
+        >
+        </Modal>
       )}
       <ToastContainer />
     </div>
   );
+
 };
 
 export default App;
