@@ -9,6 +9,8 @@ import Modal from './img-gallery/Modal/Modal';
 import '../index.css';
 import axios from 'axios';
 
+
+
 const App = () => {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
@@ -17,9 +19,9 @@ const App = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (searchQuery === '') return;
-
+    if (searchQuery === "") return;
     const fetchImages = async () => {
+
       setIsLoading(true);
 
       try {
@@ -66,6 +68,7 @@ const App = () => {
     setSelectedImage(null);
   };
 
+
   const handleSearchSubmit = (query) => {
     if (query.trim() === '') {
       toast.warn('Please enter a search keyword', {
@@ -81,6 +84,7 @@ const App = () => {
     }
 
     setImages([]);
+
     setSearchQuery(query);
     setPage(1);
   };
@@ -89,17 +93,20 @@ const App = () => {
     setPage((prevPage) => prevPage + 1);
   };
 
+
   const handleKeyDown = (evt) => {
     if (evt.key === 'Escape') {
       closeModal();
     }
   };
 
+
   const handleBackdropClick = (evt) => {
     if (evt.target === evt.currentTarget) {
       closeModal();
     }
   };
+
 
   const handleSearchKeyDown = (evt) => {
     if (evt.key === 'Enter') {
@@ -109,25 +116,41 @@ const App = () => {
   };
 
   return (
-    <div className="container">
-      <h1 className="heading">Image Finder App</h1>
-      <Searchbar onSubmit={handleSearchSubmit} onKeyDown={handleSearchKeyDown} />
-      <ImageGallery images={images} onImageClick={handleImageClick} />
+    <div className="container" onKeyDown={handleKeyDown}>
+      <h1 className="heading">
+        Image Finder App
+      </h1>
+      <Searchbar
+        onSubmit={handleSearchSubmit}
+        onKeyDown={handleSearchKeyDown}
+      >
+      </Searchbar>
+      <ImageGallery
+        images={images}
+        onImageClick={handleImageClick}>
+      </ImageGallery>
       {images.length > 0 && !isLoading && (
-        <Button onClick={handleLoadMoreClick} isVisible={!isLoading} />
+        <Button
+          onClick={handleLoadMoreClick}
+          isVisible={!isLoading}
+        >
+        </Button>
       )}
-      {isLoading && <Loader />}
+
+      {isLoading && <Loader></Loader>}
       {selectedImage && (
         <Modal
           src={selectedImage}
-          alt="SelectedImg"
+          alt="SelecteImg"
           onClose={closeModal}
           onBackdropClick={handleBackdropClick}
-        />
+        >
+        </Modal>
       )}
       <ToastContainer />
     </div>
   );
+
 };
 
 export default App;

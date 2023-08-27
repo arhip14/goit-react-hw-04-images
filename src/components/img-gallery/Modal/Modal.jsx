@@ -18,8 +18,10 @@ const Modal = ({ src, alt, onClose }) => {
     };
   }, [onClose]);
 
-  const notify = () => {
-    toast.dismiss();
+  const handleBackdropClick = (event) => {
+    if (event.target === event.currentTarget) {
+      onClose();
+    }
   };
 
   return (
@@ -38,10 +40,7 @@ const Modal = ({ src, alt, onClose }) => {
           zIndex: 1000,
           animation: 'fadeIn 0.3s ease',
         }}
-        onClick={() => {
-          notify();
-          onClose();
-        }}
+        onClick={handleBackdropClick} 
       >
         <div style={{ maxWidth: '90%', maxHeight: '90%', animation: 'zoomIn 0.3s ease' }}>
           <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
@@ -52,7 +51,6 @@ const Modal = ({ src, alt, onClose }) => {
   );
 };
 
-
 Modal.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string.isRequired,
@@ -60,4 +58,3 @@ Modal.propTypes = {
 };
 
 export default Modal;
-
