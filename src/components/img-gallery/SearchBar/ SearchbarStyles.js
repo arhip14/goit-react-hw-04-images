@@ -5,9 +5,9 @@ const styles = {
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f8f9fa',
-    padding: '10px 0',
+    padding: '15px 40px',
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
-    borderRadius: '4px',
+    borderRadius: '10px',
   },
   form: {
     display: 'flex',
@@ -37,6 +37,7 @@ const styles = {
     borderRadius: '4px',
     marginRight: '10px',
     outline: 'none',
+    width:'160px'
   },
 };
 
