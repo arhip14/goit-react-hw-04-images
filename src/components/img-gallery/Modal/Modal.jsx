@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import 'react-toastify/dist/ReactToastify.css';
 
 const Modal = ({ src, alt, onClose }) => {
   useEffect(() => {
@@ -39,13 +38,24 @@ const Modal = ({ src, alt, onClose }) => {
           zIndex: 1000,
           animation: 'fadeIn 0.3s ease',
         }}
-        onClick={handleBackdropClick} 
+        onClick={handleBackdropClick}
       >
-        <div style={{ maxWidth: '90%', maxHeight: '90%', animation: 'zoomIn 0.3s ease' }}>
-          <img src={src} alt={alt} style={{ width: '100%', height: '100%', objectFit: 'contain' }} />
+        <div style={{
+          maxWidth: '90%',
+          maxHeight: '90%',
+          animation: 'zoomIn 0.3s ease'
+        }}>
+          <img
+            src={src}
+            alt={alt}
+            style={
+              {
+                width: '100%',
+                height: '100%',
+                objectFit: 'contain'
+              }} />
         </div>
       </div>
-      <ToastContainer />
     </>
   );
 };
